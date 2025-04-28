@@ -1,3 +1,4 @@
+import { FaCcVisa } from "react-icons/fa";
 import { FcSimCardChip } from "react-icons/fc";
 import { LuNfc } from "react-icons/lu";
 
@@ -24,6 +25,9 @@ export default function CardFront(){
           </div>
           <div className="w-full h-[30%] pl-4">
             <p className=" text-white text-[25px]">Coxinha da Silva Ribeiro</p>
+            <div className="">
+            <FaCcVisa  color="white"/>
+            </div>
          </div>
         </div>
     )
