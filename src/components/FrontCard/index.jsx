@@ -20,7 +20,7 @@ export default function CardFront(){
                <LuNfc color="white" size={40}/>
            </div>
            <div className="w-full h-[40%] pl-4">
-             <p className="font-bold text-[20px] text-gray-500">2524 5246 4220 8855 5556</p>
+             <p className="font-bold text-[20px] text-gray-500">2524 5246 4220 8855 </p>
            </div>
           </div>
           <div className="w-full h-[30%] pl-4">

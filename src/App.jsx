@@ -1,6 +1,8 @@
 import { useState } from "react";
 import BackCard from "./components/BackCard";
 import CardFront from "./components/FrontCard";
+import { ToastContainer, toast } from 'react-toastify';
+import instance from "./api/instance";
 
 
 export default function App(){
@@ -11,13 +13,57 @@ export default function App(){
   const [cvv,setCvv]=useState(0);
   const [senha,setSenha]=useState("");
 
-  function pagar(){
-    console.log(nome,numero,mes,ano,cvv,senha)
+  async function pagar(){
+    // console.log(nome)
+    // console.log(numero)
+    // console.log (mes)
+    // console.log (ano)
+    // console.log (cvv)
+    // console.log (senha)
+   if(!nome|| !numero || !mes || !ano || !cvv || !senha){
+    return toast.error("Preencha todos os campos")
+   }
+   if (numero.length !== 16 ){
+    return toast.error("Número do cartao inválido")
+   }
+   if (cvv.length !==3 ){
+    return toast.error ("CVV inválido")
+   }
+   if (ano.length !==2){
+    return toast.error("Ano de expiração inválida")
+   }
+   if (mes > 12 || mes < 1){
+    return toast.error("Data de expiração inválida")
+   }
+   if(senha.length <4){
+    return toast.error("Senha Inválida")
+   }
+   
+   try {
+    const response =await instance.post("/creditcards" , { 
+      name:nome ,
+      number:numero,
+      expiration:`${mes} /${ano} `,
+      cvv:cvv,
+      password:senha
+    })
+
+    return toast.success("Pagamento realizado com sucesso")
+
+   } catch (error) {
+      return toast.error("Erro ao processar o pagamento")
+   }
+   
   }
 
   return(
     <div className="w-full h-screen flex">
-     <div className="w-[40%] relative h-full bg-[#271540]">
+      <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      theme="colored"
+      />
+   <div className="w-[40%] relative h-full bg-[#271540]">
         <div className="absolute  top-10 left-60  "> 
          <CardFront/>
         </div>
