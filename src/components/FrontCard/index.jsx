@@ -2,7 +2,7 @@ import { FaCcVisa } from "react-icons/fa";
 import { FcSimCardChip } from "react-icons/fc";
 import { LuNfc } from "react-icons/lu";
 
-export default function CardFront(){
+export default function CardFront({nome,numero}){
     return (
         <div className="w-[480px] h-[280px] bg-black rounded-xl">
           <div className="w-full h-[30%] flex">
@@ -20,11 +20,11 @@ export default function CardFront(){
                <LuNfc color="white" size={40}/>
            </div>
            <div className="w-full h-[40%] pl-4">
-             <p className="font-bold text-[20px] text-gray-500">2524 5246 4220 8855 </p>
+             <p className="font-bold text-[20px] text-gray-500">{numero || "0000 0000 0000 0000"}  </p>
            </div>
           </div>
           <div className="w-full h-[30%] pl-4">
-            <p className=" text-white text-[25px]">Coxinha da Silva Ribeiro</p>
+            <p className=" text-white text-[25px]">{nome|| "Nome no cartão"}</p>
             <div className="">
             <FaCcVisa  color="white"/>
             </div>

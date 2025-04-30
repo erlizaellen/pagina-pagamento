@@ -13,6 +13,14 @@ export default function App(){
   const [cvv,setCvv]=useState(0);
   const [senha,setSenha]=useState("");
 
+  function formatNumero(evento){
+    let numero = evento.target.value
+    let numeroFormatado = numero.replace(/\D/g, '') // Remove tudo que não for número
+    numeroFormatado = numeroFormatado.substring(0, 16) // Limita a 16 Dígitos
+    numeroFormatado = numeroFormatado.replace(/(\d{4})/g, '$1 ').trim() // Adiciona espaço a cada 4 dígitos
+    setNumero(numeroFormatado)
+  }
+
   async function pagar(){
     // console.log(nome)
     // console.log(numero)
@@ -23,7 +31,7 @@ export default function App(){
    if(!nome|| !numero || !mes || !ano || !cvv || !senha){
     return toast.error("Preencha todos os campos")
    }
-   if (numero.length !== 16 ){
+   if (numero.replace(/\s/g, '').length !== 16 ){
     return toast.error("Número do cartao inválido")
    }
    if (cvv.length !==3 ){
@@ -42,7 +50,7 @@ export default function App(){
    try {
     const response =await instance.post("/creditcards" , { 
       name:nome ,
-      number:numero,
+      number:numero.replace(/\s/g, ''),  //remover os espaços em branco
       expiration:`${mes} /${ano} `,
       cvv:cvv,
       password:senha
@@ -65,14 +73,14 @@ export default function App(){
       />
    <div className="w-[40%] relative h-full bg-[#271540]">
         <div className="absolute  top-10 left-60  "> 
-         <CardFront/>
+         <CardFront nome={nome} numero={numero}/>
         </div>
         <div className="absolute top-90 left-80">
-         <BackCard/>
+         <BackCard cvv={cvv}/>
         </div>  
      </div>
-     <div className="w-[60%] h-full flex items-end p-[60px] flex-col ">
-      <h1 className="text-[40px] w-[60%] h-[150px]  font-bold ">Preencha os campos para concluir o pagamento! </h1>
+     <div className="w-[60%] h-full flex items-end p-[50px] flex-col ">
+      <h1 className="text-[40px] w-[80%] h-[150px]  font-bold ">Preencha os campos para concluir o pagamento! </h1>
       <div className="w-[70%] h-auto min-h-[200px] flex flex-col gap-4">
           <div className="w-full flex flex-col">
             <label htmlFor="nome" className="text-[20px]" >
@@ -87,8 +95,9 @@ export default function App(){
           <div className="w-full flex flex-col ">
           <label htmlFor="numero" className="text-[20px]" >Número do Cartão</label>
           <input
-           onChange={(event) => setNumero(event.target.value)} 
-          type="number" 
+           onChange={(event) => formatNumero(event)} 
+           value={numero}
+           type="text" 
           className="w-full h-[40px] rounded-md bg-[#d9d9d9]" 
           />
           </div>
